@@ -38,22 +38,39 @@ class PhotosController < ApplicationController
   end
 
   def create
-#Parameters:{"input_image"=>"https://media.pitchfork.com/photos/62bdd2cb9e0c39ec09d73fd7/1:1/w_320,c_limit/Beyonce-Renaissance.jpg", "input_caption"=>"COMFY.", "input_owner_id"=>"117", "controller"=>"photos", "action"=>"create"}
+    #Parameters:{"input_image"=>"https://media.pitchfork.com/photos/62bdd2cb9e0c39ec09d73fd7/1:1/w_320,c_limit/Beyonce-Renaissance.jpg", "input_caption"=>"COMFY.", "input_owner_id"=>"117", "controller"=>"photos", "action"=>"create"}
+        input_image = params.fetch("input_image")
+        input_caption = params.fetch("input_caption")
+        input_owner_id = params.fetch(  "input_owner_id")
+    
+        a_new_photo = Photo.new
+        a_new_photo.image = input_image
+        a_new_photo.caption = input_caption
+        a_new_photo.owner_id = input_owner_id
+        a_new_photo.save
+        #render({:template => "photo_templates/create.html.erb"})
+        redirect_to("/photos/" + a_new_photo.id.to_s)
+      end
+    
 
-    input_image = params.fetch("input_image")
-    input_caption = params.fetch("input_caption")
-    input_owner_id = params.fetch(  "input_owner_id")
+  
+  def update
+     #Parameters: {"modify_id" => "777"}
+     the_id= params.fetch("modify_id")
 
+     matching_photo = Photo.where({:id => the_id})
 
-    a_new_photo = Photo.new
+     the_photo = matching_photo.at(0)
+     
+     input_image = params.fetch("input_image")
+     input_caption = params.fetch("input_caption")
 
-    a_new_photo.image = input_image
-    a_new_photo.caption = input_caption
-    a_new_photo.owner_id = input_owner_id
+     the_photo.image = input_image
+     the_photo.caption = input_caption
 
-    a_new_photo.save
-    #render({:template => "photo_templates/create.html.erb"})
-
-    redirect_to("/photos/" + a_new_photo.id.to_s)
+     the_photo.save
+    #render({:template => "photo_templates/update.html.erb"})
+    redirect_to("/photos/" +the_photo.id.to_s)
   end
+
 end
