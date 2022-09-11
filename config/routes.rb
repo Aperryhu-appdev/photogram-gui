@@ -8,4 +8,5 @@ Rails.application.routes.draw do
 
   get("/photos/:path_id",{:controller => "photos", :action => "show"})
 
+  get("/insert_photo",{:controller => "photos", :action => "create"})
 end
